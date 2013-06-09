@@ -10,58 +10,59 @@ package com.phpusr.service;
 
 import java.awt.*;
 import java.awt.datatransfer.*;
+import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 
 /**
  * Хранитель буфера обмена
  */
-public class ClipboardKeeper {
+public class ClipboardKeeper extends Thread {
 
     private String fileName;
-    private PrintWriter out;
-    private boolean stopped;
 
-    public static void main(String[] args) {
-//        System.out.println(getClipboardData());
-//        setClipboardData("It is work!");
-//        System.out.println(getClipboardData());
-
-        ClipboardKeeper clipboardKeeper = new ClipboardKeeper("PhpusrService.txt");
+    public static void main(String[] args) throws InterruptedException {
+        ClipboardKeeper clipboardKeeper = new ClipboardKeeper("bin/PhpusrService.txt", true);
         clipboardKeeper.start();
+
+        Thread.sleep(15000);
+        clipboardKeeper.interrupt();
     }
 
-    public ClipboardKeeper(String fileName) {
+    public ClipboardKeeper(String fileName, boolean append) {
         this.fileName = fileName;
-    }
-
-    public void start() {
         try {
-            FileWriter f = new FileWriter(fileName, false);
-            out = new PrintWriter(f);
-            stopped = false;
-            String lastData = null;
-
-            while (!stopped) {
-                String clipboardData = getClipboardData();
-                if (lastData == null || !clipboardData.equals(lastData)) {
-                    out.print(new Date() + ": " + clipboardData);
-                    out.println();
-                    System.out.println(">>Change");
-                }
-                Thread.sleep(100);
-                //System.out.println(">>It is work!; clip: " + clipboardData + "; last: " + lastData);
-                lastData = clipboardData;
-            }
-        } catch (Exception e) {
+            new FileWriter(fileName, append);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void stop() {
-        stopped = true;
-        out.close();
+    @Override
+    public void run() {
+        try {
+            String lastData = null;
+
+            while (!isInterrupted()) {
+                String clipboardData = getClipboardData();
+                if (clipboardData != null && !clipboardData.equals(lastData)) {
+                    PrintWriter out = new PrintWriter(new FileWriter(fileName, true));
+                    out.println(new Date() + ": " + clipboardData);
+                    out.close();
+                    System.out.println(">>Change clipboard: " + clipboardData);
+                }
+                Thread.sleep(100);
+                lastData = clipboardData;
+            }
+        } catch (InterruptedException e) {
+            System.err.println(e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     /** Возвращает содержимое буфера-обмена */
@@ -75,8 +76,12 @@ public class ClipboardKeeper {
                 clipboardText = (String) contents.getTransferData(DataFlavor.stringFlavor);
                 return clipboardText;
             }
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        } catch (UnsupportedFlavorException e) {
+            System.out.println("Er1");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Er2");
+            e.printStackTrace();
         }
 
         return null;
@@ -86,6 +91,13 @@ public class ClipboardKeeper {
     private static void setClipboardData(String string) {
         StringSelection stringSelection = new StringSelection(string);
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
+    }
+
+    /** Тест методов буфера-обмена */
+    private static void testClipboardMethods() {
+        System.out.println(getClipboardData());
+        setClipboardData("It is work!");
+        System.out.println(getClipboardData());
     }
 
 

@@ -19,7 +19,7 @@ public class PhpusrWrapperListener implements WrapperListener {
     @Override
     public Integer start(String[] args) {
         System.out.println(">>Program start...");
-        clipboardKeeper = new ClipboardKeeper("PhpusrService.txt");
+        clipboardKeeper = new ClipboardKeeper("PhpusrService.txt", true);
         clipboardKeeper.start();
 
         return null;
@@ -28,14 +28,14 @@ public class PhpusrWrapperListener implements WrapperListener {
     @Override
     public int stop(int exitCode) {
         System.out.println(">>Program end...");
-        clipboardKeeper.stop();
+        clipboardKeeper.interrupt();
 
         return exitCode;
     }
 
     @Override
     public void controlEvent(int event) {
-        System.out.println(">>controlEvent: " + event);
+        System.out.println(">>Control event: " + event);
     }
 
     public static void main(String[] args) {
