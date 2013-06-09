@@ -12,15 +12,15 @@ import org.tanukisoftware.wrapper.WrapperManager;
  */
 public class PhpusrWrapperListener implements WrapperListener {
 
-    private ClipboardKeeper clipboardKeeper;
+    private Thread mp3Tag2Html;
 
     private PhpusrWrapperListener() {}
 
     @Override
     public Integer start(String[] args) {
         System.out.println(">>Program start...");
-        clipboardKeeper = new ClipboardKeeper("PhpusrService.txt", true);
-        clipboardKeeper.start();
+        mp3Tag2Html = new MP3Tag2Html("../html/report.html", "f:\\Music\\DL\\Superbus - Sunset (2012)");
+        mp3Tag2Html.start();
 
         return null;
     }
@@ -28,7 +28,7 @@ public class PhpusrWrapperListener implements WrapperListener {
     @Override
     public int stop(int exitCode) {
         System.out.println(">>Program end...");
-        clipboardKeeper.interrupt();
+        mp3Tag2Html.interrupt();
 
         return exitCode;
     }
