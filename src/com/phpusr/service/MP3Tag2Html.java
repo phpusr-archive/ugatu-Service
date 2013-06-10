@@ -17,24 +17,26 @@ import java.util.List;
 
 
 /**
- * Записывает инф-ю об MP3-файлах в папке в html-файл
+ * Записывает инф-ю об MP3-файлах в папке, в html-файл
  */
 public class MP3Tag2Html extends Thread {
 
-    private String fileName;
+    /** Папка с песнями */
     private String songsDir;
+    /** Имя html-файла */
+    private String htmlFileName;
 
     public static void main(String[] args) throws InterruptedException, IOException, TagException {
-        MP3Tag2Html mp3Tag2Html = new MP3Tag2Html("html/report.html", "music");
+        MP3Tag2Html mp3Tag2Html = new MP3Tag2Html("music", "html/report.html");
         mp3Tag2Html.start();
 
         Thread.sleep(5000);
         mp3Tag2Html.interrupt();
     }
 
-    public MP3Tag2Html(String fileName, String songsDir) {
-        this.fileName = fileName;
+    public MP3Tag2Html(String songsDir, String htmlFileName) {
         this.songsDir = songsDir;
+        this.htmlFileName = htmlFileName;
     }
 
     @Override
@@ -71,7 +73,7 @@ public class MP3Tag2Html extends Thread {
     private void generateHtmlFormSongs(List<Song> songList) {
         PrintWriter out = null;
         try {
-            out = new PrintWriter(new FileWriter(fileName, false));
+            out = new PrintWriter(new FileWriter(htmlFileName));
             out.println("<html>");
             out.println("<head><link href=\"style/style.css\" type=\"text/css\" rel=\"stylesheet\"/></head>");
             out.println("<html><body class=\"branding\"><section id=\"main\">");
