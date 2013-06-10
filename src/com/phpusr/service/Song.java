@@ -2,6 +2,7 @@ package com.phpusr.service;
 
 import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
+import org.farng.mp3.id3.AbstractID3;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,48 +32,40 @@ public class Song {
 
     /** Название композиции */
     public String getTitle() {
-        if (isIssetTags()) {
-            return mp3File.getID3v1Tag().getSongTitle() != null ? mp3File.getID3v1Tag().getSongTitle() : mp3File.getID3v2Tag().getSongTitle();
-        } else {
-            return null;
-        }
+        return getID3Tag() != null ? getID3Tag().getSongTitle() : null;
     }
 
     /** Исполнитель */
     public String getArtist() {
-        if (isIssetTags()) {
-            return mp3File.getID3v1Tag().getLeadArtist() != null ? mp3File.getID3v1Tag().getLeadArtist() : mp3File.getID3v2Tag().getLeadArtist();
-        } else {
-            return null;
-        }
+        return getID3Tag() != null ? getID3Tag().getLeadArtist() : null;
     }
 
     /** Альбом */
     public String getAlbum() {
-        if (isIssetTags()) {
-            return mp3File.getID3v1Tag().getAlbumTitle() != null ? mp3File.getID3v1Tag().getAlbumTitle() : mp3File.getID3v2Tag().getAlbumTitle();
+        return getID3Tag() != null ? getID3Tag().getAlbumTitle() : null;
+    }
+
+    /** Битрейт */
+    public int getBitRate() {
+        return isNotNull() ? mp3File.getBitRate() : 0;
+    }
+
+    /** Проверка на null */
+    private boolean isNotNull() {
+        return mp3File != null;
+    }
+
+    private AbstractID3 getID3Tag() {
+        if (isNotNull()) {
+            return mp3File.getID3v1Tag() != null ? mp3File.getID3v1Tag() : mp3File.getID3v2Tag();
         } else {
             return null;
         }
     }
 
-    /** Битрейт */
-    public int getBitRate() {
-        if (isIssetTags()) {
-            return mp3File.getBitRate();
-        } else {
-            return 0;
-        }
-    }
-
-    /** Проверка, есть ли теги в файле */
-    private boolean isIssetTags() {
-        return mp3File != null && (mp3File.getID3v1Tag() != null || mp3File.getID3v2Tag() != null);
-    }
-
     @Override
     public String toString() {
-        if (isIssetTags()) {
+        if (isNotNull()) {
             return getArtist() + " - " + getTitle() + " (" + getAlbum() + ")";
         } else {
             return getFileName();
