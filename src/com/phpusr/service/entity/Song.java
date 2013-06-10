@@ -1,4 +1,4 @@
-package com.phpusr.service;
+package com.phpusr.service.entity;
 
 import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
@@ -8,13 +8,10 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Created with IntelliJ IDEA.
- * User: phpusr
+ * @author phpusr
  * Date: 09.06.13
  * Time: 19:53
- * To change this template use File | Settings | File Templates.
  */
-
 /**
  * Музыкальная композиция (Имя файла, Название, Исполнитель, Альбом, Битрейт)
  */

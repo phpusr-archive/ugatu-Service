@@ -1,4 +1,4 @@
-package com.phpusr.service;
+package com.phpusr.service.wrapper;
 
 import com.phpusr.service.thread.MP3Tag2HtmlThread;
 import org.tanukisoftware.wrapper.WrapperListener;

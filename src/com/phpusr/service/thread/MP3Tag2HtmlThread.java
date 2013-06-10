@@ -1,6 +1,6 @@
 package com.phpusr.service.thread;
 
-import com.phpusr.service.Song;
+import com.phpusr.service.entity.Song;
 import org.farng.mp3.TagException;
 
 import java.io.*;

@@ -1,4 +1,4 @@
-package com.phpusr.service;
+package com.phpusr.service.wrapper;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -6,11 +6,9 @@ import java.io.PrintWriter;
 import java.util.Date;
 
 /**
- * Created with IntelliJ IDEA.
- * User: phpusr
+ * @author phpusr
  * Date: 07.06.13
  * Time: 16:37
- * To change this template use File | Settings | File Templates.
  */
 public class PhpusrWrapperSimpleApp {
     public static void main(String[] args) {
