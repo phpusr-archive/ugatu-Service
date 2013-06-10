@@ -2,11 +2,9 @@ package com.phpusr.service;
 
 import org.farng.mp3.TagException;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,6 +41,7 @@ public class MP3Tag2Html extends Thread {
     public void run() {
         try {
             while (!isInterrupted()) {
+                System.out.println(">>Songs:");
                 generateHtmlFormSongs(getSongsForDir(songsDir));
                 Thread.sleep(1000);
             }
@@ -73,9 +72,9 @@ public class MP3Tag2Html extends Thread {
     private void generateHtmlFormSongs(List<Song> songList) {
         PrintWriter out = null;
         try {
-            out = new PrintWriter(new FileWriter(htmlFileName));
+            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(htmlFileName), "utf-8"));
             out.println("<html>");
-            out.println("<head><link href=\"style/style.css\" type=\"text/css\" rel=\"stylesheet\"/></head>");
+            out.println("<head><meta charset=\"utf-8\"><link href=\"style/style.css\" type=\"text/css\" rel=\"stylesheet\"/></head>");
             out.println("<html><body class=\"branding\"><section id=\"main\">");
             String[] classes = new String[]{"main-holder", "wrap", "white-box home-page", "white-holder", "white-frame", "gray-box", "gray-holder", "column"};
 
@@ -83,7 +82,8 @@ public class MP3Tag2Html extends Thread {
                 out.print("<div class=\"" + cssClass + "\">");
             }
 
-            out.println("\n<div class=\"topic\"><h2>Композиции в папке:<br/>" + songsDir + "</h2></div>");
+            out.print("\n<div class=\"topic\"><h2>"+ new Date() +"<br/>Композиции в папке: <br/>");
+            out.println(songsDir + "</h2></div>");
             out.println("<ul class=\"songs-list players-list js-top40-list\">");
 
             int count = 0;
@@ -113,7 +113,10 @@ public class MP3Tag2Html extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (out != null) out.close();
+            if (out != null) {
+                out.flush();
+                out.close();
+            }
         }
 
     }
