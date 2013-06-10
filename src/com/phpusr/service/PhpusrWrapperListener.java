@@ -1,5 +1,6 @@
 package com.phpusr.service;
 
+import com.phpusr.service.thread.MP3Tag2Html;
 import org.tanukisoftware.wrapper.WrapperListener;
 import org.tanukisoftware.wrapper.WrapperManager;
 

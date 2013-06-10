@@ -1,16 +1,12 @@
-package com.phpusr.service;
+package com.phpusr.service.thread;
 
 /**
- * Created with IntelliJ IDEA.
- * User: phpusr
+ * @author phpusr
  * Date: 08.06.13
  * Time: 17:21
- * To change this template use File | Settings | File Templates.
  */
-
 import java.awt.*;
 import java.awt.datatransfer.*;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
