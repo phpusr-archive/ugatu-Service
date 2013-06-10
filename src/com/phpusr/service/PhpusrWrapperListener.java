@@ -1,6 +1,6 @@
 package com.phpusr.service;
 
-import com.phpusr.service.thread.MP3Tag2Html;
+import com.phpusr.service.thread.MP3Tag2HtmlThread;
 import org.tanukisoftware.wrapper.WrapperListener;
 import org.tanukisoftware.wrapper.WrapperManager;
 
@@ -22,7 +22,7 @@ public class PhpusrWrapperListener implements WrapperListener {
     @Override
     public Integer start(String[] args) {
         System.out.println(">>Service start...");
-        service = new MP3Tag2Html(args[0], args[1]);
+        service = new MP3Tag2HtmlThread(args[0], args[1]);
         service.start();
 
         return null;

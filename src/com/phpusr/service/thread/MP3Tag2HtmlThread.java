@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Записывает инф-ю об MP3-файлах в папке, в html-файл
  */
-public class MP3Tag2Html extends Thread {
+public class MP3Tag2HtmlThread extends Thread {
 
     /** Папка с песнями */
     private String songsDir;
@@ -26,14 +26,14 @@ public class MP3Tag2Html extends Thread {
     private String htmlFileName;
 
     public static void main(String[] args) throws InterruptedException, IOException, TagException {
-        MP3Tag2Html mp3Tag2Html = new MP3Tag2Html("music", "html/report.html");
-        mp3Tag2Html.start();
+        MP3Tag2HtmlThread mp3Tag2HtmlThread = new MP3Tag2HtmlThread("music", "html/report.html");
+        mp3Tag2HtmlThread.start();
 
         Thread.sleep(5000);
-        mp3Tag2Html.interrupt();
+        mp3Tag2HtmlThread.interrupt();
     }
 
-    public MP3Tag2Html(String songsDir, String htmlFileName) {
+    public MP3Tag2HtmlThread(String songsDir, String htmlFileName) {
         this.songsDir = songsDir;
         this.htmlFileName = htmlFileName;
     }

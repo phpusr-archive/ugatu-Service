@@ -15,19 +15,19 @@ import java.util.Date;
 /**
  * Хранитель буфера обмена
  */
-public class ClipboardKeeper extends Thread {
+public class ClipboardKeeperThread extends Thread {
 
     private String fileName;
 
     public static void main(String[] args) throws InterruptedException {
-        ClipboardKeeper clipboardKeeper = new ClipboardKeeper("bin/PhpusrService.txt", true);
-        clipboardKeeper.start();
+        ClipboardKeeperThread clipboardKeeperThread = new ClipboardKeeperThread("bin/PhpusrService.txt", true);
+        clipboardKeeperThread.start();
 
         Thread.sleep(15000);
-        clipboardKeeper.interrupt();
+        clipboardKeeperThread.interrupt();
     }
 
-    public ClipboardKeeper(String fileName, boolean append) {
+    public ClipboardKeeperThread(String fileName, boolean append) {
         this.fileName = fileName;
         try {
             new FileWriter(fileName, append);
