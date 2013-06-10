@@ -10,12 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: phpusr
+ * @author phpusr
  * Date: 09.06.13
  * Time: 18:37
- * To change this template use File | Settings | File Templates.
  */
+
 
 /**
  * Записывает инф-ю об MP3-файлах в папке в html-файл
@@ -26,7 +25,7 @@ public class MP3Tag2Html extends Thread {
     private String songsDir;
 
     public static void main(String[] args) throws InterruptedException, IOException, TagException {
-        MP3Tag2Html mp3Tag2Html = new MP3Tag2Html("html/report.html", "f:\\Music\\DL\\Superbus - Sunset (2012)");
+        MP3Tag2Html mp3Tag2Html = new MP3Tag2Html("html/report.html", "music");
         mp3Tag2Html.start();
 
         Thread.sleep(5000);
@@ -62,7 +61,7 @@ public class MP3Tag2Html extends Thread {
                 }
             }
         } catch (Exception e) {
-            //e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         return songList;
@@ -93,7 +92,9 @@ public class MP3Tag2Html extends Thread {
                     out.println("\t\t<span class=\"number\">"+(++count)+"</span>");
                     out.println("\t\t<div class=\"jp-title\">");
                     out.println("\t\t\t<strong class=\"title\"><a href=\"#\" title=\"Карточка исполнителя " + song.getArtist() + "\">" + song.getArtist() + "</a></strong>");
-                    out.println("\t\t\t<span>" + song.getTitle() + " <i>(" + song.getAlbum() + ")</i></span>");
+                    out.print("\t\t\t<span>" + song.getTitle());
+                    if (song.getAlbum() != null && !song.getAlbum().equals("")) out.print(" <i>(" + song.getAlbum() + ")</i>");
+                    out.print("</span>");
                     out.println("\t\t</div>");
                     out.println("\t</div>");
                     out.println("</li>");
