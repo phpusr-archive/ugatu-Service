@@ -44,7 +44,7 @@ public class Song {
 
     /** Битрейт */
     public int getBitRate() {
-        return isNotNull() ? mp3File.getBitRate() : 0;
+        return isNotNull() ? mp3File.getBitRate() : -1;
     }
 
     /** Проверка на null */

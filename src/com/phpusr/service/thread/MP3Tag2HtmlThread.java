@@ -43,7 +43,7 @@ public class MP3Tag2HtmlThread extends Thread {
         try {
             while (!isInterrupted()) {
                 System.out.println(">>Songs:");
-                generateHtmlFormSongs(getSongsForDir(songsDir));
+                generateHtmlFromSongs(getSongsForDir(songsDir));
                 Thread.sleep(1000);
             }
         } catch (InterruptedException e) {
@@ -70,7 +70,7 @@ public class MP3Tag2HtmlThread extends Thread {
     }
 
     /** Генерация html-файла из тегов песен */
-    private void generateHtmlFormSongs(List<Song> songList) {
+    private void generateHtmlFromSongs(List<Song> songList) {
         PrintWriter out = null;
         try {
             out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(htmlFileName), "utf-8"));
