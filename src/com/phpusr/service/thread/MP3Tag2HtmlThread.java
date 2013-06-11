@@ -24,6 +24,8 @@ public class MP3Tag2HtmlThread extends Thread {
     private String songsDir;
     /** Имя html-файла */
     private String htmlFileName;
+    /** Логирование */
+    private static final boolean logEnable = false;
 
     public static void main(String[] args) throws InterruptedException, IOException, TagException {
         MP3Tag2HtmlThread mp3Tag2HtmlThread = new MP3Tag2HtmlThread("music", "html/report.html");
@@ -34,6 +36,7 @@ public class MP3Tag2HtmlThread extends Thread {
     }
 
     public MP3Tag2HtmlThread(String songsDir, String htmlFileName) {
+        System.out.println("songsDir: " + songsDir);
         this.songsDir = songsDir;
         this.htmlFileName = htmlFileName;
     }
@@ -42,7 +45,7 @@ public class MP3Tag2HtmlThread extends Thread {
     public void run() {
         try {
             while (!isInterrupted()) {
-                System.out.println(">>Songs:");
+                if (logEnable) System.out.println(">>Songs:");
                 generateHtmlFromSongs(getSongsForDir(songsDir));
                 Thread.sleep(1000);
             }
@@ -59,7 +62,7 @@ public class MP3Tag2HtmlThread extends Thread {
                 if (file.isFile()) {
                     Song song = new Song(file);
                     songList.add(song);
-                    System.out.println("\t" + song);
+                    if (logEnable) System.out.println("\t" + song);
                 }
             }
         } catch (Exception e) {
